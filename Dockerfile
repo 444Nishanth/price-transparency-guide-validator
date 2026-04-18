@@ -1,4 +1,4 @@
-FROM ubuntu as build
+FROM ubuntu:24.04 as build
 
 ARG VERSION=v1.0.0
 RUN apt-get update
@@ -8,6 +8,6 @@ COPY ./rapidjson /rapidjson
 COPY ./tclap /tclap
 RUN g++ -O3 --std=c++17 -I /rapidjson/include -I /tclap/include/ schemavalidator.cpp -o validator -lstdc++fs
 
-FROM ubuntu
+FROM ubuntu:24.04
 COPY --from=build /validator /validator
 ENTRYPOINT ["/validator"]
